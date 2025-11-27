@@ -12,22 +12,63 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
         tabBarButton: HapticTab,
-      }}>
+        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+      }}
+    >
+      {/* Home */}
+      <Tabs.Screen
+        name="chat"
+        options={{
+          title: "Home",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="house.fill" color={color} />
+          ),
+        }}
+      />
+
+      {/* Materi */}
+      <Tabs.Screen
+        name="materi"
+        options={{
+          title: "Materi",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="book.fill" color={color} />
+          ),
+        }}
+      />
+
+      {/* Chat */}
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: "Chat",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="text.bubble.fill" color={color} />
+          ),
         }}
       />
+
+      {/* Quiz */}
       <Tabs.Screen
-        name="explore"
+        name="quiz"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: "Quiz",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="questionmark.circle.fill" color={color} />
+          ),
+        }}
+      />
+
+      {/* Profile */}
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="paperplane.fill" color={color} />
+          ),
         }}
       />
     </Tabs>
