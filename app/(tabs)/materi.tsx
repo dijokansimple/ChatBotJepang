@@ -1,17 +1,39 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import React from 'react';
+import { SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export default function materi() {
+type LevelItem = {
+  id: string;
+  path: string;
+};
+
+export default function Materi() {
   const router = useRouter();
 
-  const levels = [
-    { id: 'N1', color: '#F7A6A6' },
-    { id: 'N2', color: '#D6EEF8' },
-    { id: 'N3', color: '#FCE8B8' },
-    { id: 'N4 + N5', color: '#FFF48C' },
+  const levels: LevelItem[] = [
+    { id: "N1", path: "/coming-soon" },
+    { id: "N2", path: "/coming-soon" },
+    { id: "N3", path: "/coming-soon" },
+    { id: "N4 + N5", path: "/materi/n4-n5" },
   ];
+
+  const goToLevel = (lvl: LevelItem) => {
+    if (!lvl?.path) return;
+
+    const comingSoon = ["/materi/n1", "/materi/n2", "/materi/n3"];
+
+    if (comingSoon.includes(lvl.path)) {
+      router.push("/materi/coming-soon");
+    } else {
+      router.push(lvl.path);
+    }
+  };
+
+  const getColor = (index: number) => {
+    const colors = ["#F7A6A6", "#D6EEF8", "#FCE8B8", "#FFF48C"];
+    return colors[index % colors.length];
+  };
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -24,41 +46,34 @@ export default function materi() {
           </TouchableOpacity>
 
           <View style={styles.headerTitleWrap}>
-            <Text style={styles.appTitle}>Modul Pembelajaran</Text>
+            <Text style={styles.appTitle}>Materi Pembelajaran</Text>
             <Text style={styles.subTitle}>Pusat Bantuan SmartEdu Chatbot</Text>
           </View>
         </View>
 
-        {/* Main */}
+        {/* Main Content */}
         <View style={styles.content}>
           <Text style={styles.title}>Please select JLPT level!</Text>
           <View style={styles.spacer} />
 
-          {levels.map((lvl, idx) => (
+          {levels.map((lvl, index) => (
             <TouchableOpacity
               key={lvl.id}
               style={styles.optionRow}
-              onPress={() =>
-                router.push({
-                  pathname: "/JLPTDetail",
-                  params: { level: lvl.id }
-                })
-              }
+              onPress={() => goToLevel(lvl)}
             >
-              <View style={[styles.badge, { backgroundColor: lvl.color }]}>
-                <Text style={styles.badgeText}>{idx + 1}</Text>
+              <View style={[styles.badge, { backgroundColor: getColor(index) }]}>
+                <Text style={styles.badgeText}>{index + 1}</Text>
               </View>
 
               <Text style={styles.optionLabel}>{lvl.id}</Text>
             </TouchableOpacity>
           ))}
-
         </View>
       </View>
     </SafeAreaView>
   );
 }
-
 
 const styles = StyleSheet.create({
   safe: {
@@ -74,7 +89,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 18,
+    marginTop: StatusBar.currentHeight || 18,
     paddingBottom: 6,
   },
   hamButton: {
@@ -97,7 +112,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
 
-  /* Content */
+  /* Main */
   content: {
     flex: 1,
     alignItems: 'center',
@@ -113,7 +128,7 @@ const styles = StyleSheet.create({
     height: 22,
   },
 
-  /* Option rows */
+  /* Level Rows */
   optionRow: {
     width: '100%',
     backgroundColor: '#FFFFFF',
@@ -142,7 +157,6 @@ const styles = StyleSheet.create({
     color: '#222',
     fontSize: 16,
   },
-  optionLabelWrap: { flex: 1 },
   optionLabel: {
     fontSize: 15,
     fontWeight: '600',

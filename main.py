@@ -2,16 +2,24 @@ from fastapi import FastAPI
 import requests
 import os
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
 
 app = FastAPI()
 
+# CORS supaya bisa diakses dari Android
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 API_KEY = os.getenv("GEMINI_API_KEY")
 GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
 
-
-@app.post("/chat")
+@app.post("/ai/ai-sensei")
 def chat(payload: dict):
     message = payload.get("message", "")
 
@@ -30,7 +38,12 @@ def chat(payload: dict):
     )
 
     data = res.json()
-
-    reply = data["candidates"][0]["content"]["parts"][0]["text"]
+    
+    reply = (
+        data.get("candidates", [{}])[0]
+        .get("content", {})
+        .get("parts", [{}])[0]
+        .get("text", "Maaf, sensei tidak mengerti 😅")
+    )
 
     return {"reply": reply}

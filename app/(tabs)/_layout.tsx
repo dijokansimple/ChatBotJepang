@@ -15,11 +15,20 @@ export default function TabLayout() {
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarLabelStyle: {
+          fontFamily: "Poppins_600SemiBold", // 🔥 Font Poppins
+          fontSize: 12,
+        },
+        tabBarStyle: {
+          height: 65,
+          paddingBottom: 10,
+        },
       }}
     >
+
       {/* Home */}
       <Tabs.Screen
-        name="chat"
+        name="index"
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => (
@@ -39,11 +48,11 @@ export default function TabLayout() {
         }}
       />
 
-      {/* Chat */}
+      {/* AI Chat */}
       <Tabs.Screen
-        name="index"
+        name="ai"
         options={{
-          title: "Chat",
+          title: "AI",
           tabBarIcon: ({ color }) => (
             <IconSymbol size={28} name="text.bubble.fill" color={color} />
           ),

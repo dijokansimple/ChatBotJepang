@@ -1,256 +1,143 @@
-import React, { useRef, useState } from "react";
-import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import Markdown from "react-native-markdown-display";
-import { Ionicons } from "@expo/vector-icons"; 
-
-type ChatMessage = {
-  sender: "user" | "bot";
-  text: string;
-};
+import { router } from "expo-router";
+import React from "react";
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function Home() {
-  const [message, setMessage] = useState("");
-  const [chat, setChat] = useState<ChatMessage[]>([]);
-  const scrollRef = useRef<ScrollView>(null);
-
-  async function sendMessage() {
-    if (!message.trim()) return;
-
-    const userMsg: ChatMessage = { sender: "user", text: message };
-    setChat((prev) => [...prev, userMsg]);
-    setMessage("");
-
-    try {
-      const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.EXPO_PUBLIC_GEMINI_KEY}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: message }] }],
-          }),
-        }
-      );
-
-      const data = await res.json();
-
-      const botMsg: ChatMessage = {
-        sender: "bot",
-        text:
-          data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-          "Terjadi kesalahan.",
-      };
-
-      setChat((prev) => [...prev, botMsg]);
-    } catch (err) {
-      console.log("API Error:", err);
-    }
-  }
-
+  const myProfile = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMDhwZnJqcHBpeHM0enZhOTF2bmdvZWVtaTE1OTF0NW96eHVnZW4xbyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/DObgk0NPQh57OBQmzX/giphy.gif";
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1, backgroundColor: "#dff3eeff" }}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
-    >
-      {/* HEADER */}
+    <ScrollView style={styles.container}>
+      {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity style={styles.hamButton}>
-          <Ionicons name="menu" size={22} color="#222" />
+        <View>
+          <Text style={styles.title}>MY APLIKASI</Text>
+          <Text style={styles.title}>JAV LEARNING</Text>
+          <Text style={styles.subtitle}>Mulai petualanganmu hari ini! ROMI</Text>
+        </View>
+
+        <TouchableOpacity onPress={() => router.push("/profile")}>
+          <Image
+            source={{ uri: myProfile }} // Menggunakan URL yang sudah didefinisikan
+            style={styles.profileImage}         // Menggunakan style baru (didefinisikan di bawah)
+          /></TouchableOpacity>
+      </View>
+
+      {/* Category Buttons */}
+      <View style={styles.categoryContainer}>
+        <TouchableOpacity style={styles.categoryButton} onPress={() => router.push("/materi")}>
+          <Text style={styles.categoryText}>Kosakata</Text>
         </TouchableOpacity>
 
-        <View style={styles.headerTitleWrap}>
-          <Text style={styles.appTitle}>Modul Pembelajaran</Text>
-          <Text style={styles.subTitle}>Pusat Bantuan SmartEdu Chatbot</Text>
-        </View>
-
-        <View style={{ width: 25 }} />
+        <TouchableOpacity style={styles.categoryButton} onPress={() => router.push("/grammar")}>
+          <Text style={styles.categoryText}>Tata Bahasa</Text>
+        </TouchableOpacity>
       </View>
 
-      {/* LOGO + TITLE */}
-      <View style={styles.logoContainer}>
-        <View style={styles.logoCircle}>
-          <Text style={{ fontSize: 28 }}>🎌</Text>
-        </View>
-        <Text style={styles.logoTitle}>NihonGo Sensei Chatbot</Text>
-      </View>
-
-      {/* MAIN CHAT */}
-      <ScrollView
-        ref={scrollRef}
-        contentContainerStyle={{ padding: 10 }}
-        onContentSizeChange={() =>
-          scrollRef.current?.scrollToEnd({ animated: true })
-        }
+      {/* Card 1 */}
+      <TouchableOpacity
+        style={[styles.card, { backgroundColor: "#C7F5D6" }]}
+        onPress={() => router.push("/coming-soon")}
       >
-        {chat.map((msg, i) => (
-          <View
-            key={i}
-            style={[
-              styles.chatBubble,
-              msg.sender === "user" ? styles.userBubble : styles.botBubble,
-            ]}
-          >
-            <Markdown
-              style={{
-                body: {
-                  color: msg.sender === "user" ? "white" : "#333",
-                  fontSize: 16,
-                },
-                link: {
-                  color: "#4f93ff",
-                  textDecorationLine: "underline",
-                },
-              }}
-            >
-              {msg.text}
-            </Markdown>
-          </View>
-        ))}
-      </ScrollView>
-
-      {/* INPUT */}
-      <View style={styles.inputContainer}>
-        <TextInput
-          value={message}
-          onChangeText={setMessage}
-          placeholder="Tulis pesan..."
-          style={styles.input}
+        <Text style={styles.cardTitle}>FITUR 1</Text>
+        <Text style={styles.cardDesc}>KAMING SAN</Text>
+        <Image
+          source={{
+            uri: "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGIyNjEwNTFybjl2Z3l1YmhudjJza2x2eGZqdmZxdnRza29zNHN6NyZlcD12MV9naWZzX3NlYXJjaCZjdD1z/xULW8Bkaqz0Y57MH3a/giphy.gif",
+          }}
+          style={styles.cardImage}
         />
-        <TouchableOpacity style={styles.sendButton} onPress={sendMessage}>
-          <Text style={styles.sendText}>Kirim</Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+      </TouchableOpacity>
+
+      {/* Card 2 */}
+      <TouchableOpacity
+        style={[styles.card, { backgroundColor: "#FAD4D8" }]}
+        onPress={() => router.push("/coming-soon")}
+      >
+        <Text style={styles.cardTitle}>FLIP CARD</Text>
+        <Text style={styles.cardDesc}>AYO HAPAL KANJI!</Text>
+        <Image
+          source={{
+            uri: "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDN3NmV4bzBvNGNoanFuajZiNWk3a3F1NGpxNHhka2RuYmRrMTRpMiZlcD12MV9naWZzX3NlYXJjaCZjdD1z/26gsjCZpPolPr3sBy/giphy.gif",
+          }}
+          style={styles.cardImage}
+        />
+      </TouchableOpacity>
+
+      <View style={{ height: 80 }} />
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  safe: {
+  container: {
     flex: 1,
-    backgroundColor: "#dff3eeff",
+    backgroundColor: "#FFE0A3",
+    paddingHorizontal: 20,
   },
-
-  /* ===== HEADER ===== */
   header: {
+    marginTop: 60,
     flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 15,
-    paddingVertical: 12,
-    backgroundColor: "#dff3eeff",
-    borderBottomWidth: 1,
-    borderBottomColor: "#cde8e1",
   },
-
-  hamButton: {
-    width: 35,
-    height: 35,
-    borderRadius: 10,
-    backgroundColor: "#ffffffaa",
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 12,
+  title: {
+    fontSize: 32,
+    fontWeight: "900",
+    color: "#2E2E2E",
   },
-
-  headerTitleWrap: {
-    flex: 1,
-  },
-
-  appTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#222",
-  },
-
-  subTitle: {
-    fontSize: 12,
+  subtitle: {
+    fontSize: 14,
+    marginTop: 6,
     color: "#555",
-    marginTop: 2,
   },
-
-  /* ===== LOGO SECTION ===== */
-  logoContainer: {
-    alignItems: "center",
-    marginTop: 15,
+  profileImage: {
+    width: 62,           // Ukuran harus sama dengan size={42} Ionicons sebelumnya
+    height: 62,
+    borderRadius: 31,    // Setengah dari 42 agar berbentuk lingkaran
+    borderWidth: 2,      // Opsional: Batas agar lebih jelas
+    borderColor: '#4A4A4A',
+  },
+  categoryContainer: {
+    flexDirection: "row",
+    marginTop: 30,
     marginBottom: 10,
+    justifyContent: "space-between",
+  },
+  categoryButton: {
+    backgroundColor: "#fff",
+    paddingVertical: 10,
+    paddingHorizontal: 18,
+    borderRadius: 25,
+    shadowColor: "#000",
+    elevation: 3,
+  },
+  categoryText: {
+    fontWeight: "700",
+    fontSize: 14,
   },
 
-  logoCircle: {
-    width: 70,
-    height: 70,
-    borderRadius: 50,
-    backgroundColor: "#ffffffcc",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 8,
+  card: {
+    width: "100%",
+    borderRadius: 25,
+    padding: 20,
+    marginTop: 20,
     shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
     elevation: 4,
   },
-
-  logoTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    textAlign: "center",
+  cardTitle: {
+    fontSize: 20,
+    fontWeight: "800",
     color: "#222",
   },
-
-  /* ===== CHAT BUBBLES ===== */
-  chatBubble: {
-    maxWidth: "80%",
-    marginVertical: 4,
-    padding: 10,
-    borderRadius: 15,
+  cardDesc: {
+    marginTop: 5,
+    fontSize: 13,
+    color: "#444",
   },
-
-  userBubble: {
-    backgroundColor: "#4f93ff",
+  cardImage: {
+    width: 130,
+    height: 130,
     alignSelf: "flex-end",
-    borderBottomRightRadius: 0,
-  },
-
-  botBubble: {
-    backgroundColor: "#fffefeff",
-    alignSelf: "flex-start",
-    borderBottomLeftRadius: 0,
-  },
-
-  /* ===== INPUT BAR ===== */
-  inputContainer: {
-    flexDirection: "row",
-    padding: 10,
-    backgroundColor: "#fff",
-    alignItems: "center",
-  },
-
-  input: {
-    flex: 1,
-    backgroundColor: "#f0f0f0",
-    borderRadius: 25,
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    fontSize: 16,
-    marginRight: 10,
-  },
-
-  sendButton: {
-    backgroundColor: "#4f93ff",
-    borderRadius: 25,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-  },
-
-  sendText: {
-    color: "white",
-    fontWeight: "bold",
+    marginTop: -10,
+    borderRadius: 15,
   },
 });
