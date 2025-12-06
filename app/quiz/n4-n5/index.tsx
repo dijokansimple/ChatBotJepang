@@ -7,11 +7,36 @@ export default function KanjiMenu() {
   const router = useRouter();
 
   const levels = [
-    { id: 'Chapter 1: Kanji Angka (数 – Sūji)', desc: "Topik: Angka dan bilangan dasar.", color: '#F7A6A6', path: '/coming-soon' },
-    { id: 'Chapter 2: Kanji Waktu (時間 – Jikan)', desc: "Topik: Hari, bulan, tahun, jam.", color: '#D6EEF8', path: '/coming-soon'  },
-    { id: 'Chapter 3: Kanji Keluarga dan Orang (家族 – Kazoku)', desc: "Topik: Anggota keluarga dan manusia.", color: '#FCE8B8', path: '/coming-soon'  },
-    { id: 'Chapter 4: Kanji Alam dan Lingkungan (自然 – Shizen)', desc: "Topik: Unsur alam, cuaca, lingkungan.", color: '#FFF48C', path: '/coming-soon' },
-    { id: 'Chapter 5: Kanji Kata Kerja (動詞 – Doushi)', desc: "Topik: Aktivitas sehari-hari.", color: '#B0E57C', path: '/coming-soon' },
+    { 
+      id: 'Chapter 1: Kanji Angka (数 – Sūji)', 
+      desc: "Topik: Angka dan bilangan dasar.", 
+      color: '#F7A6A6', 
+      path: '/quiz/n4-n5/chapter1' 
+    },
+    { 
+      id: 'Chapter 2: Kanji Waktu (時間 – Jikan)', 
+      desc: "Topik: Hari, bulan, tahun, jam.", 
+      color: '#D6EEF8', 
+      path: '/coming-soon'  
+    },
+    { 
+      id: 'Chapter 3: Kanji Keluarga dan Orang (家族 – Kazoku)', 
+      desc: "Topik: Anggota keluarga dan manusia.", 
+      color: '#FCE8B8', 
+      path: '/coming-soon'  
+    },
+    { 
+      id: 'Chapter 4: Kanji Alam dan Lingkungan (自然 – Shizen)', 
+      desc: "Topik: Unsur alam, cuaca, lingkungan.", 
+      color: '#FFF48C', 
+      path: '/coming-soon' 
+    },
+    { 
+      id: 'Chapter 5: Kanji Kata Kerja (動詞 – Doushi)', 
+      desc: "Topik: Aktivitas sehari-hari.", 
+      color: '#B0E57C', 
+      path: '/coming-soon' 
+    },
   ];
 
   return (
@@ -42,7 +67,7 @@ export default function KanjiMenu() {
             <TouchableOpacity
               key={lvl.id}
               style={styles.optionRow}
-              onPress={() => router.push("/coming-soon")}
+              onPress={() => router.push(lvl.path)}
             >
               <View style={[styles.badge, { backgroundColor: lvl.color }]}>
                 <Text style={styles.badgeText}>{idx + 1}</Text>
@@ -65,7 +90,7 @@ const styles = StyleSheet.create({
   safe: {
     flex: 1,
     backgroundColor: '#dff3eeff',
-    paddingTop: StatusBar.currentHeight || 20, // 🔥 anti-mepet di status bar
+    paddingTop: StatusBar.currentHeight || 20,
   },
   container: {
     paddingHorizontal: 20,
@@ -124,6 +149,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 2,
   },
+
   badge: {
     width: 42,
     height: 42,
@@ -137,6 +163,7 @@ const styles = StyleSheet.create({
     color: '#222',
     fontSize: 16,
   },
+
   optionLabelWrap: { flex: 1 },
   optionLabel: {
     fontSize: 15,
