@@ -17,6 +17,26 @@ import Markdown from "react-native-markdown-display";
 
 type ChatMessage = { sender: "user" | "bot"; text: string };
 
+// 🟦 SYSTEM PROMPT — AI hanya menjawab seputar Bahasa Jepang
+const SYSTEM_PROMPT = `
+Kamu adalah NihonGo AI Sensei — tutor bahasa Jepang.
+
+FOKUS UTAMA:
+- Mengajar tata bahasa Jepang
+- Menjelaskan kosakata Jepang
+- Memberikan latihan JLPT (N5–N1)
+- Melatih percakapan bahasa Jepang
+- Memberikan contoh kalimat bahasa Jepang
+
+LARANGAN:
+- Tidak boleh menjawab pertanyaan di luar topik bahasa Jepang
+- Tidak boleh membahas politik, teknologi, kesehatan, agama, sejarah, hiburan, atau topik lain yang tidak terkait
+- Jika pertanyaan di luar topik, jawab:
+  "Maaf, saya hanya bisa membantu dalam topik pembelajaran bahasa Jepang."
+
+Selalu jawab dengan ramah dan jelas seperti seorang Sensei.
+`;
+
 export default function AiSensei() {
   const router = useRouter();
   const [message, setMessage] = useState("");
@@ -24,8 +44,6 @@ export default function AiSensei() {
   const [loading, setLoading] = useState(false);
 
   const scrollRef = useRef<ScrollView>(null);
-
-  const API_KEY = "YOUR_OPENAI_API_KEY"; // << GANTI DI SINI !!!
 
   const goBack = () => {
     if (router.canGoBack()) router.back();
@@ -41,37 +59,40 @@ export default function AiSensei() {
     setLoading(true);
 
     try {
-      const response = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${API_KEY}`
-        },
-        body: JSON.stringify({
-          model: "gpt-4o-mini",
-          messages: [
-            { role: "system", content: "Kamu adalah Ai-Sensei, guru bahasa Jepang." },
-            ...chat.map(c => ({
-              role: c.sender === "user" ? "user" : "assistant",
-              content: c.text
-            })),
-            { role: "user", content: userMsg.text }
-          ],
-          temperature: 0.6
-        })
-      });
+      const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.EXPO_PUBLIC_GEMINI_KEY}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            system_instruction: {
+              role: "system",
+              parts: [{ text: SYSTEM_PROMPT }],
+            },
+            contents: [
+              {
+                role: "user",
+                parts: [{ text: message }],
+              },
+            ],
+          }),
+        }
+      );
 
-      const data = await response.json();
+      const data = await res.json();
 
       const botReply =
-        data?.choices?.[0]?.message?.content ||
-        "Maaf, Sensei tidak dapat merespons. 😢";
+        data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+        "Maaf, Sensei tidak bisa menjawab sekarang 😢";
 
       setChat((prev) => [...prev, { sender: "bot", text: botReply }]);
     } catch (e: any) {
       setChat((prev) => [
         ...prev,
-        { sender: "bot", text: `⚠️ Error koneksi: ${e?.message || "Tidak diketahui"}` }
+        {
+          sender: "bot",
+          text: `⚠️ Error koneksi: ${e?.message || "Tidak diketahui"}`,
+        },
       ]);
     }
 
@@ -136,7 +157,9 @@ export default function AiSensei() {
         {loading && (
           <View style={[styles.botBubble, { flexDirection: "row" }]}>
             <ActivityIndicator size="small" color="#666" />
-            <Text style={{ marginLeft: 10, color: "#555" }}>Sensei berpikir...</Text>
+            <Text style={{ marginLeft: 10, color: "#555" }}>
+              Sensei berpikir...
+            </Text>
           </View>
         )}
       </ScrollView>
@@ -165,7 +188,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 15,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight! + 10 : 22,
-    backgroundColor: "#dff5ef"
+    backgroundColor: "#dff5ef",
   },
 
   backButton: {
