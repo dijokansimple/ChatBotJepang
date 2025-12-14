@@ -8,7 +8,7 @@ export default function N4N5Detail() {
 
   // Mapping module → route
   const modules = [
-    { title: "Vocabulary", desc: "Kosakata penting untuk JLPT.", color: "#F7A6A6", icon: "📘", path: "/materi/n4-n5/vocab" },
+    { title: "Vocabulary", desc: "Kosakata penting untuk JLPT.", color: "#F7A6A6", icon: "📘", path: "/materi/n4-n5/vocabulary" },
     { title: "Kanji", desc: "Kanji wajib beserta contohnya.", color: "#D6EEF8", icon: "🈶", path: "/materi/n4-n5/kanji" },
     { title: "Grammar", desc: "Pola tata bahasa level JLPT.", color: "#FCE8B8", icon: "📚", path: "/materi/n4-n5/grammar" },
     { title: "Reading", desc: "Latihan membaca JLPT.", color: "#FFF48C", icon: "📝", path: "/materi/n4-n5/reading" },
@@ -27,8 +27,8 @@ export default function N4N5Detail() {
 
         </View>
 
-        <Text style={styles.levelTitle}>N4 - N5</Text>
-        <Text style={styles.subTitle}>Modul Pembelajaran JLPT Level N4 - N5</Text>
+        <Text style={styles.levelTitle}>N3</Text>
+        <Text style={styles.subTitle}>Modul Pembelajaran JLPT Level N3</Text>
 
         <View style={styles.grid}>
           {modules.map((item, index) => (

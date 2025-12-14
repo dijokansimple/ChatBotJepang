@@ -7,12 +7,13 @@ export default function KanjiMenu() {
   const router = useRouter();
 
   const levels = [
-    { id: 'Kanji Angka (数 – Sūji)', desc: "Topik: Angka dan bilangan dasar.", color: '#F7A6A6', path: '/coming-soon' },
-    { id: 'Kanji Waktu (時間 – Jikan)', desc: "Topik: Hari, bulan, tahun, jam.", color: '#D6EEF8', path: '/coming-soon' },
-    { id: 'Kanji Keluarga dan Orang (家族 – Kazoku)', desc: "Topik: Anggota keluarga dan manusia.", color: '#FCE8B8', path: '/coming-soon' },
-    { id: 'Kanji Alam dan Lingkungan (自然 – Shizen)', desc: "Topik: Unsur alam, cuaca, lingkungan.", color: '#FFF48C', path: '/coming-soon' },
-    { id: 'Kanji Kata Kerja (動詞 – Doushi)', desc: "Topik: Aktivitas sehari-hari.", color: '#B0E57C', path: '/coming-soon' },
-    { id: 'Kanji Kata Sifat (形容詞 – Keiyoushi)', desc: "Topik: Deskripsi dan sifat benda/orang.", color: '#FFB6B9', path: '/coming-soon' },
+    { id: 'Kanji Angka (数 – Sūji)', desc: "Topik: Angka dan bilangan dasar.", color: '#F7A6A6', path: '/materi/n4-n5/kanji/kanji-angka' },
+    { id: 'Kanji Waktu (時間 – Jikan)', desc: "Topik: Hari, bulan, tahun, jam.", color: '#D6EEF8', path: '/materi/n4-n5/kanji/kanji-waktu' },
+    { id: 'Kanji Keluarga dan Orang (家族 – Kazoku)', desc: "Topik: Anggota keluarga dan manusia.", color: '#FCE8B8', path: '/materi/n4-n5/kanji/kanji-orang' },
+    { id: 'Kanji Alam dan Lingkungan (自然 – Shizen)', desc: "Topik: Unsur alam, cuaca, lingkungan.", color: '#FFF48C', path: '/materi/n4-n5/kanji/kanji-alam-dan-lingkungan' },
+    { id: 'Kanji Kata Benda, Tempat dan Arah (動詞 – Doushi)', desc: "Topik: Aktivitas sehari-hari.", color: '#B0E57C', path: '/materi/n4-n5/kanji/kanji-benda-tempat-dan-arah' },
+    { id: 'Kanji Kata Kerja (動詞 – Doushi)', desc: "Topik: Aktivitas sehari-hari.", color: '#e5e37cff', path: '/materi/n4-n5/kanji/kanji-kata-kerja' },
+    { id: 'Kanji Kata Sifat (形容詞 – Keiyoushi)', desc: "Topik: Deskripsi dan sifat benda/orang.", color: '#FFB6B9', path: '/materi/n4-n5/kanji/kanji-kata-sifat' },
   ];
 
   return (
@@ -41,7 +42,7 @@ export default function KanjiMenu() {
           <TouchableOpacity
             key={lvl.id}
             style={styles.optionRow}
-            onPress={() => router.push("/coming-soon")}
+            onPress={() => router.push(lvl.path)}
           >
             <View style={[styles.badge, { backgroundColor: lvl.color }]}>
               <Text style={styles.badgeText}>{idx + 1}</Text>

@@ -12,22 +12,15 @@ export default function Materi() {
   const router = useRouter();
 
   const levels: LevelItem[] = [
-    { id: "N1", path: "/coming-soon" },
-    { id: "N2", path: "/coming-soon" },
-    { id: "N3", path: "/coming-soon" },
+    { id: "N1", path: "/materi/n1" },
+    { id: "N2", path: "/materi/n2" },
+    { id: "N3", path: "/materi/n3" },
     { id: "N4 + N5", path: "/materi/n4-n5" },
   ];
 
   const goToLevel = (lvl: LevelItem) => {
     if (!lvl?.path) return;
-
-    const comingSoon = ["/materi/n1", "/materi/n2", "/materi/n3"];
-
-    if (comingSoon.includes(lvl.path)) {
-      router.push("/materi/coming-soon");
-    } else {
-      router.push(lvl.path);
-    }
+    router.push(lvl.path);
   };
 
   const getColor = (index: number) => {
