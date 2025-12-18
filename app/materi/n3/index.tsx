@@ -1,41 +1,78 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import { Platform, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Stack, useRouter } from "expo-router";
+import {
+  Dimensions,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+
+const SCREEN_WIDTH = Dimensions.get("window").width;
+const CARD_WIDTH = 280;
+const CARD_MARGIN = 16;
+const SIDE_SPACE = (SCREEN_WIDTH - CARD_WIDTH) / 2 - 300;
 
 export default function N4N5Detail() {
-  const { level } = useLocalSearchParams();
   const router = useRouter();
 
-  // Mapping module → route
   const modules = [
-    { title: "Vocabulary", desc: "Kosakata penting untuk JLPT.", color: "#F7A6A6", icon: "📘", path: "/materi/n4-n5/vocabulary" },
-    { title: "Kanji", desc: "Kanji wajib beserta contohnya.", color: "#D6EEF8", icon: "🈶", path: "/materi/n4-n5/kanji" },
-    { title: "Grammar", desc: "Pola tata bahasa level JLPT.", color: "#FCE8B8", icon: "📚", path: "/materi/n4-n5/grammar" },
-    { title: "Reading", desc: "Latihan membaca JLPT.", color: "#FFF48C", icon: "📝", path: "/materi/n4-n5/reading" },
+    {
+      title: "Vocabulary",
+      desc: "Kosakata penting untuk JLPT.",
+      color: "#F7A6A6",
+      icon: "📘",
+      path: "/materi/n3/vocab",
+    },
+    {
+      title: "Kanji",
+      desc: "Kanji wajib beserta contohnya.",
+      color: "#D6EEF8",
+      icon: "🈶",
+      path: "/materi/n3/kanji",
+    },
+    {
+      title: "Grammar",
+      desc: "Pola tata bahasa level JLPT.",
+      color: "#FCE8B8",
+      icon: "📚",
+      path: "/materi/n3/grammar",
+    },
   ];
 
   return (
     <SafeAreaView style={styles.safe}>
       <Stack.Screen options={{ headerShown: false }} />
-      <ScrollView contentContainerStyle={styles.container}>
 
-        <View style={styles.header}>
-          <TouchableOpacity style={styles.hamButton} onPress={() => router.back()}>
-             <Ionicons name="arrow-back" size={24} color="#222" />
-          </TouchableOpacity>
+      <ScrollView>
+        <View style={styles.container}>
+          {/* Header */}
+          <View style={styles.header}>
+            <TouchableOpacity style={styles.hamButton} onPress={() => router.back()}>
+              <Ionicons name="arrow-back" size={24} color="#222" />
+            </TouchableOpacity>
+          </View>
 
-
+          <Text style={styles.levelTitle}>N3</Text>
+          <Text style={styles.subTitle}>Modul Pembelajaran JLPT</Text>
         </View>
 
-        <Text style={styles.levelTitle}>N3</Text>
-        <Text style={styles.subTitle}>Modul Pembelajaran JLPT Level N3</Text>
-
-        <View style={styles.grid}>
+        {/* CARD HORIZONTAL */}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ paddingHorizontal: SIDE_SPACE }}
+        >
           {modules.map((item, index) => (
             <TouchableOpacity
               key={index}
-              style={styles.box}
+              style={[styles.box, { marginRight: CARD_MARGIN }]}
               onPress={() => router.push(item.path)}
+              activeOpacity={0.85}
             >
               <View style={[styles.smallBox, { backgroundColor: item.color }]}>
                 <Text style={styles.icon}>{item.icon}</Text>
@@ -45,7 +82,7 @@ export default function N4N5Detail() {
               <Text style={styles.boxDesc}>{item.desc}</Text>
             </TouchableOpacity>
           ))}
-        </View>
+        </ScrollView>
       </ScrollView>
     </SafeAreaView>
   );
@@ -54,23 +91,24 @@ export default function N4N5Detail() {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: "#dff3eeff",
+    backgroundColor: "#dff3ee",
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
+
   container: {
     padding: 20,
-    paddingBottom: 40,
   },
+
   header: {
-  flexDirection: "row",
-  alignItems: "center",
-  marginBottom: 20,
-},
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+  },
 
   hamButton: {
     width: 40,
     height: 40,
-    borderRadius: 8,
+    borderRadius: 10,
     backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
@@ -81,60 +119,54 @@ const styles = StyleSheet.create({
   },
 
   levelTitle: {
-    fontSize: 34,
+    fontSize: 36,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 8,
     color: "#0F3B36",
   },
+
   subTitle: {
     fontSize: 18,
     textAlign: "center",
-    marginBottom: 50,
+    marginTop: 6,
+    marginBottom: 30,
     color: "#265f57",
   },
 
-  grid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-  },
-
   box: {
-    width: "48%",
+    width: CARD_WIDTH,
     backgroundColor: "#fff",
-    borderRadius: 8,
+    borderRadius: 16,
     padding: 22,
-    paddingTop: 18,
-    marginBottom: 20,
     shadowColor: "#000",
-    shadowOpacity: 0.06,
-    shadowRadius: 4,
-    elevation: 2,
-    minHeight: 150,
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    elevation: 3,
   },
 
   smallBox: {
-    width: "100%",
-    height: 70,
-    borderRadius: 8,
-    marginBottom: 12,
+    height: 90,
+    borderRadius: 14,
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 16,
   },
 
   icon: {
-    fontSize: 32,
+    fontSize: 38,
   },
 
   boxTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "700",
     color: "#0F3B36",
     marginBottom: 6,
+    textAlign: "center",
   },
+
   boxDesc: {
-    fontSize: 13,
+    fontSize: 15,
     color: "#555",
+    textAlign: "center",
   },
 });
