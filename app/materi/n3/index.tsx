@@ -1,7 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Stack, useRouter } from "expo-router";
 import {
-  Dimensions,
   Platform,
   SafeAreaView,
   ScrollView,
@@ -11,11 +10,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-
-const SCREEN_WIDTH = Dimensions.get("window").width;
-const CARD_WIDTH = 280;
-const CARD_MARGIN = 16;
-const SIDE_SPACE = (SCREEN_WIDTH - CARD_WIDTH) / 2 - 300;
 
 export default function N4N5Detail() {
   const router = useRouter();
@@ -48,41 +42,31 @@ export default function N4N5Detail() {
     <SafeAreaView style={styles.safe}>
       <Stack.Screen options={{ headerShown: false }} />
 
-      <ScrollView>
-        <View style={styles.container}>
-          {/* Header */}
-          <View style={styles.header}>
-            <TouchableOpacity style={styles.hamButton} onPress={() => router.back()}>
-              <Ionicons name="arrow-back" size={24} color="#222" />
-            </TouchableOpacity>
-          </View>
-
+      <ScrollView contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 20 }}>
+        <View style={styles.header}>
+          <TouchableOpacity style={styles.hamButton} onPress={() => router.back()}>
+            <Ionicons name="arrow-back" size={24} color="#222" />
+          </TouchableOpacity>
           <Text style={styles.levelTitle}>N3</Text>
           <Text style={styles.subTitle}>Modul Pembelajaran JLPT</Text>
         </View>
 
-        {/* CARD HORIZONTAL */}
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ paddingHorizontal: SIDE_SPACE }}
-        >
-          {modules.map((item, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[styles.box, { marginRight: CARD_MARGIN }]}
-              onPress={() => router.push(item.path)}
-              activeOpacity={0.85}
-            >
-              <View style={[styles.smallBox, { backgroundColor: item.color }]}>
-                <Text style={styles.icon}>{item.icon}</Text>
-              </View>
+        {/* CARD VERTIKAL */}
+        {modules.map((item, index) => (
+          <TouchableOpacity
+            key={index}
+            style={[styles.box, { marginBottom: 16 }]}
+            onPress={() => router.push(item.path)}
+            activeOpacity={0.85}
+          >
+            <View style={[styles.smallBox, { backgroundColor: item.color }]}>
+              <Text style={styles.icon}>{item.icon}</Text>
+            </View>
 
-              <Text style={styles.boxTitle}>{item.title}</Text>
-              <Text style={styles.boxDesc}>{item.desc}</Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
+            <Text style={styles.boxTitle}>{item.title}</Text>
+            <Text style={styles.boxDesc}>{item.desc}</Text>
+          </TouchableOpacity>
+        ))}
       </ScrollView>
     </SafeAreaView>
   );
@@ -95,17 +79,16 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
 
-  container: {
-    padding: 20,
-  },
-
   header: {
-    flexDirection: "row",
-    alignItems: "center",
+    marginTop: 20,
     marginBottom: 20,
+    alignItems: "center",
   },
 
   hamButton: {
+    position: "absolute",
+    left: 0,
+    top: 0,
     width: 40,
     height: 40,
     borderRadius: 10,
@@ -123,18 +106,19 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     color: "#0F3B36",
+    marginTop: 10,
   },
 
   subTitle: {
     fontSize: 18,
     textAlign: "center",
     marginTop: 6,
-    marginBottom: 30,
+    marginBottom: 20,
     color: "#265f57",
   },
 
   box: {
-    width: CARD_WIDTH,
+    width: "100%",
     backgroundColor: "#fff",
     borderRadius: 16,
     padding: 22,
