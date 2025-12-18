@@ -11,7 +11,6 @@ export default function N4N5Detail() {
     { title: "Vocabulary", desc: "Kosakata penting untuk JLPT.", color: "#F7A6A6", icon: "📘", path: "/materi/n4-n5/vocab" },
     { title: "Kanji", desc: "Kanji wajib beserta contohnya.", color: "#D6EEF8", icon: "🈶", path: "/materi/n4-n5/kanji" },
     { title: "Grammar", desc: "Pola tata bahasa level JLPT.", color: "#FCE8B8", icon: "📚", path: "/materi/n4-n5/grammar" },
-    { title: "Reading", desc: "Latihan membaca JLPT.", color: "#FFF48C", icon: "📝", path: "/materi/n4-n5/reading" },
   ];
 
   return (

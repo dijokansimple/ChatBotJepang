@@ -3,21 +3,19 @@ import { Stack, useRouter } from "expo-router";
 import React from "react";
 import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function etc() {
+export default function JLPTN2Overview() {
   const router = useRouter();
 
   const kategori = [
-  {
-    title: "JLPT N2 Overview",
-    desc: "Informasi lengkap tentang JLPT N2: persiapan, ujian, dan tips lulus.",
-    path: "/materi/n2/overview"
-  },
-  {
-    title: "JLPT N2 Latihan Soal",
-    desc: "Informasi lengkap tentang JLPT N2: persiapan, ujian, dan tips lulus.",
-    path: "/materi/n2/latihan-dan-tips"
-  },
-];
+    {
+        id: "Contoh Soal & Persiapan Kanji / Kosakata / Tata Bahasa / Membaca",
+        path: "/materi/n2/latihan-dan-tips/kanji-kosakata-tata-bahasa-membaca"
+    },
+    {
+        id: "Contoh Soal & Persiapan Sesi Mendengarkan",
+        path: "/materi/n2/latihan-dan-tips/mendengarkan"
+    },
+  ];
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -29,18 +27,19 @@ export default function etc() {
           <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={24} color="#222" />
           </TouchableOpacity>
+          <Text style={styles.headerTitle}>Kumpulan contoh Soal JLPT N2 </Text>
         </View>
 
-        <Text style={styles.pageTitle}>Pilih Sub-Kategori</Text>
+        <Text style={styles.pageTitle}>Pilih Topik</Text>
 
-        {/* Card */}
+        {/* Kartu Topik */}
         {kategori.map((item, idx) => (
           <TouchableOpacity
             key={idx}
             style={styles.card}
             onPress={() => router.push(item.path)}
           >
-            <Text style={styles.cardText}>{item.title}</Text>
+            <Text style={styles.cardText}>{item.id}</Text>
             <Ionicons name="chevron-forward" size={20} color="#444" />
           </TouchableOpacity>
         ))}

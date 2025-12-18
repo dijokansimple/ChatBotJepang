@@ -7,16 +7,18 @@ export default function etc() {
   const router = useRouter();
 
   const kategori = [
-  {
-    title: "JLPT N2 Overview",
-    desc: "Informasi lengkap tentang JLPT N2: persiapan, ujian, dan tips lulus.",
-    path: "/materi/n2/overview"
+   {
+    id: "Ta Koto Ga Aru (Pernah)",
+    path: "/materi/n4-n5/grammar/kalimat-majemuk-waktu/ta-koto-ga-aru"
   },
   {
-    title: "JLPT N2 Latihan Soal",
-    desc: "Informasi lengkap tentang JLPT N2: persiapan, ujian, dan tips lulus.",
-    path: "/materi/n2/latihan-dan-tips"
+    id: "Te Iru / Te Imasu (Sedang Melakukan)",
+    path: "/materi/n4-n5/grammar/kalimat-majemuk-waktu/te-iru-te-imasu"
   },
+  {
+    id: "Mada ~Te Imasen (Masih Belum Melakukan)",
+    path: "/materi/n4-n5/grammar/kalimat-majemuk-waktu/mada-te-imasen"
+  }
 ];
 
   return (
@@ -29,6 +31,7 @@ export default function etc() {
           <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={24} color="#222" />
           </TouchableOpacity>
+          <Text style={styles.headerTitle}>Kalimat Majemuk Waktu</Text>
         </View>
 
         <Text style={styles.pageTitle}>Pilih Sub-Kategori</Text>
@@ -40,7 +43,7 @@ export default function etc() {
             style={styles.card}
             onPress={() => router.push(item.path)}
           >
-            <Text style={styles.cardText}>{item.title}</Text>
+            <Text style={styles.cardText}>{item.id}</Text>
             <Ionicons name="chevron-forward" size={20} color="#444" />
           </TouchableOpacity>
         ))}
@@ -86,6 +89,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 35,
   },
+  spacer: { height: 22 },
+
   card: {
     width: "100%",
     backgroundColor: "#fff",
