@@ -94,24 +94,23 @@ const styles = StyleSheet.create({
   },
 
   grid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
+  flexDirection: "column",
   },
 
   box: {
-    width: "48%",
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    padding: 22,
-    paddingTop: 18,
-    marginBottom: 20,
-    shadowColor: "#000",
-    shadowOpacity: 0.06,
-    shadowRadius: 4,
-    elevation: 2,
-    minHeight: 150,
+  width: "100%",
+  backgroundColor: "#fff",
+  borderRadius: 8,
+  padding: 22,
+  paddingTop: 18,
+  marginBottom: 20,
+  shadowColor: "#000",
+  shadowOpacity: 0.06,
+  shadowRadius: 4,
+  elevation: 2,
+  minHeight: 160,
   },
+
 
   smallBox: {
     width: "100%",
